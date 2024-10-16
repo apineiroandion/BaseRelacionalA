@@ -1,12 +1,13 @@
-package Model.DAO;
+package model.dao;
 
-import Model.Product;
+import model.Product;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDAO {
     public static boolean insireProduto(Product product) {
@@ -25,11 +26,11 @@ public class ProductDAO {
         }
     }
 
-    public static ArrayList<Product> listaProdutos() {
+    public static List<Product> listaProdutos() {
         Connection connection = DataBaseConnection.getConnection();
         ArrayList<Product> products = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM produtos");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT FROM produtos");
             preparedStatement.executeQuery();
             while (preparedStatement.getResultSet().next()) {
                 Product product = new Product();
@@ -46,11 +47,11 @@ public class ProductDAO {
         return null;
     }
 
-    public static ArrayList<Product> listaProdutoPorCodigo(String codigo){
+    public static List<Product> listaProdutoPorCodigo(String codigo){
         Connection connection = DataBaseConnection.getConnection();
         ArrayList<Product> products = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM produtos WHERE codigo = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT FROM produtos WHERE codigo = ?");
             preparedStatement.setString(1, codigo);
             preparedStatement.executeQuery();
             while (preparedStatement.getResultSet().next()) {

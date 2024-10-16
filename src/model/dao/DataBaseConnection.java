@@ -1,4 +1,4 @@
-package Model.DAO;
+package model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
     private static String driver = "jdbc:postgresql:";
-    private static String host = "//localhost:"; // tamen poderia ser una ip como "192.168.1.14"
+    private static String host = "//localhost:";
     private static String porto = "5432";
     private static String sid = "postgres";
     private static String usuario = "postgres";
