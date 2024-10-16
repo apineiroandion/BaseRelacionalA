@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ProductDAO {
-    public static void insireProduto(Product product) {
+    public static boolean insireProduto(Product product) {
         Connection connection = DataBaseConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO produtos VALUES (?, ?, ?, ?)");
@@ -18,8 +18,10 @@ public class ProductDAO {
             preparedStatement.setInt(3, product.getPrezo());
             preparedStatement.setDate(4, Date.valueOf(product.getDatac()));
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -48,7 +50,8 @@ public class ProductDAO {
         Connection connection = DataBaseConnection.getConnection();
         ArrayList<Product> products = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM produtos WHERE codigo = "+ codigo +";");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM produtos WHERE codigo = ?");
+            preparedStatement.setString(1, codigo);
             preparedStatement.executeQuery();
             while (preparedStatement.getResultSet().next()) {
                 Product product = new Product();
@@ -65,6 +68,32 @@ public class ProductDAO {
         return null;
     }
 
+    public static boolean actualizaPre(String codigo, Integer prezo) {
+        Connection connection = DataBaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE produtos SET prezo = ? WHERE codigo = ?");
+            preparedStatement.setInt(1, prezo);
+            preparedStatement.setString(2, codigo);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean eliminaProduto (String codigo) {
+        Connection connection = DataBaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE * FROM produtos WHERE codigo = ?");
+            preparedStatement.setString(1, codigo);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
 
