@@ -44,6 +44,27 @@ public class ProductDAO {
         return null;
     }
 
+    public static ArrayList<Product> listaProdutoPorCodigo(String codigo){
+        Connection connection = DataBaseConnection.getConnection();
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM produtos WHERE codigo = "+ codigo +";");
+            preparedStatement.executeQuery();
+            while (preparedStatement.getResultSet().next()) {
+                Product product = new Product();
+                product.setCodigo(preparedStatement.getResultSet().getString("codigo"));
+                product.setDescricion(preparedStatement.getResultSet().getString("descricion"));
+                product.setPrezo(preparedStatement.getResultSet().getInt("prezo"));
+                product.setDatac(preparedStatement.getResultSet().getDate("datac").toLocalDate());
+                products.add(product);
+            }
+            return products;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
 
